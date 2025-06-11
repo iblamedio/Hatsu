@@ -21,10 +21,9 @@ public class User {
    User() {
    }
 
-   User(String email, String password, String name) {
-      this.email = email;
+   User(String username, String password) {
+      this.username = username;
       this.password = password;
-      this.name = name;
    }
 
    @Id
@@ -32,15 +31,11 @@ public class User {
    private Long id;
 
    @NotBlank
-   @Email
    @Column(unique = true)
-   private String email;
+   private String username;
 
    @NotBlank
    private String password;
-
-   @NotBlank
-   private String name;
 
    @CreationTimestamp
    private LocalDateTime createdAt;
@@ -64,14 +59,6 @@ public class User {
       return id;
    }
 
-   public String getEmail() {
-      return email;
-   }
-
-   public void setEmail(String email) {
-      this.email = email;
-   }
-
    public String getPassword() {
       return password;
    }
@@ -80,12 +67,12 @@ public class User {
       this.password = password;
    }
 
-   public String getName() {
-      return name;
+   public String getUsername() {
+      return username;
    }
 
-   public void setName(String name) {
-      this.name = name;
+   public void setUsername(String username) {
+      this.username = username;
    }
 
 }

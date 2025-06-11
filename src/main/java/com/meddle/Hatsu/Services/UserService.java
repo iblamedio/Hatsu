@@ -29,9 +29,8 @@ public class UserService {
    public User update(Long id, User user) throws RuntimeException {
       User oldUser = repo.findById(id).orElseThrow(() -> new RuntimeException());
 
-      oldUser.setName(user.getName());
+      oldUser.setUsername(user.getUsername());
       oldUser.setPassword(user.getPassword());
-      oldUser.setEmail(user.getEmail());
 
       return repo.save(oldUser);
    }
