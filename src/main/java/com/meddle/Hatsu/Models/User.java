@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -38,11 +37,9 @@ public class User {
    private String email;
 
    @NotBlank
-   @NotNull
    private String password;
 
    @NotBlank
-   @NotNull
    private String name;
 
    @CreationTimestamp
@@ -63,16 +60,8 @@ public class User {
       return createdAt;
    }
 
-   public void setCreatedAt(LocalDateTime createdAt) {
-      this.createdAt = createdAt;
-   }
-
    public Long getId() {
       return id;
-   }
-
-   public void setId(Long id) {
-      this.id = id;
    }
 
    public String getEmail() {
