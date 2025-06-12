@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
       return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND);
    }
 
+   // TODO: investigate why this is returning 500
    @ExceptionHandler(DuplicateEntityException.class)
    ResponseEntity<Object> handleDuplicateEntity(DuplicateEntityException exception) {
       HashMap<String, Object> body = new HashMap<String, Object>();

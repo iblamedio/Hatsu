@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meddle.Hatsu.Auth.AuthRequest;
 import com.meddle.Hatsu.Auth.AuthResponse;
+import com.meddle.Hatsu.Exceptions.DuplicateEntityException;
 import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
 import com.meddle.Hatsu.Models.Player;
 import com.meddle.Hatsu.Services.PlayerService;
@@ -33,12 +34,18 @@ class PlayerController {
       return ResponseEntity.ok(player);
    }
 
-   @PostMapping
-   public ResponseEntity<AuthResponse> post(@Valid @RequestBody AuthRequest request) {
+   @PostMapping("/register")
+   public ResponseEntity<AuthResponse> post(@RequestBody AuthRequest request) throws DuplicateEntityException {
       AuthResponse token = service.register(request.username(), request.password());
 
       return new ResponseEntity<AuthResponse>(token, HttpStatus.CREATED);
    }
+
+   // @PostMapping("/login")
+   // public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest
+   // request) {
+
+   // }
 
    @PutMapping("/{id}")
    public ResponseEntity<Player> put(@PathVariable Long id, @Valid @RequestBody Player player)
