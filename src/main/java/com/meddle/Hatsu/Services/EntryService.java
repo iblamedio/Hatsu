@@ -42,7 +42,7 @@ public class EntryService {
    }
 
    public Entry create(Entry entry) throws DuplicateEntityException {
-      if (repo.findByPlayerIdAndIgdbId(entry.getUserId(), entry.getIgdbId()).isPresent()) {
+      if (repo.findByPlayerIdAndIgdbId(entry.getPlayerId(), entry.getIgdbId()).isPresent()) {
          throw new DuplicateEntityException("This entry already exists");
       }
 
