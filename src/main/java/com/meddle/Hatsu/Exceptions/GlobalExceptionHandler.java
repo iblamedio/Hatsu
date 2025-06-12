@@ -1,0 +1,34 @@
+package com.meddle.Hatsu.Exceptions;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+   @ExceptionHandler(EntityNotFoundException.class)
+   ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException exception) {
+      HashMap<String, Object> body = new HashMap<String, Object>();
+      body.put("timestamp", LocalDateTime.now());
+      body.put("status", HttpStatus.NOT_FOUND.value());
+      body.put("message", exception.getMessage());
+
+      return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND);
+   }
+
+   @ExceptionHandler(Exception.class)
+   ResponseEntity<Object> handleException(Exception exception) {
+      HashMap<String, Object> body = new HashMap<String, Object>();
+      body.put("timestamp", LocalDateTime.now());
+      body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      body.put("message", exception.getMessage());
+
+      return new ResponseEntity<Object>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+   }
+
+}

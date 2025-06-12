@@ -6,12 +6,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Range;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "entries")
@@ -30,18 +30,18 @@ public class Entry {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @NotNull
+   @Column(nullable = false)
    private Long igdbId;
 
-   @NotNull
+   @Column(nullable = false)
    private Long userId;
 
    @Range(min = 0, max = 100)
    private int score;
 
-   // -1: deleted, 0: planning, 1: completed, 2: paused, 4: dropped
-   @NotNull
-   @Range(min = -1, max = 4)
+   // 0: planning, 1: completed, 2: paused, 4: dropped
+   @Range(min = 0, max = 4)
+   @Column(nullable = false)
    private short status;
 
    @CreationTimestamp

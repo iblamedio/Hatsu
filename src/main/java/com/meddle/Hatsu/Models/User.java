@@ -11,17 +11,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
 public class User {
 
-   User() {
+   public User() {
    }
 
-   User(String username, String password) {
+   public User(String username, String password) {
       this.username = username;
       this.password = password;
    }
@@ -30,11 +28,10 @@ public class User {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @NotBlank
-   @Column(unique = true)
+   @Column(unique = true, nullable = false)
    private String username;
 
-   @NotBlank
+   @Column(nullable = false)
    private String password;
 
    @CreationTimestamp

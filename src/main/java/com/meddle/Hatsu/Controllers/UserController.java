@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
 import com.meddle.Hatsu.Models.User;
 import com.meddle.Hatsu.Services.UserService;
 
@@ -27,19 +28,14 @@ class UserController {
    private UserService service;
 
    @GetMapping
-   public ResponseEntity<List<User>> get() {
-      List<User> users = service.findAll();
-      return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+   public List<User> get() {
+      return service.findAll();
    }
 
    @GetMapping("{id}")
-   public ResponseEntity<User> getOne(@PathVariable Long id) {
-      try {
-         User user = service.find(id);
-         return new ResponseEntity<User>(user, HttpStatus.OK);
-      } catch (RuntimeException e) {
-         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
+   public ResponseEntity<User> getOne(@PathVariable Long id) throws EntityNotFoundException {
+      User user = service.find(id);
+      return new ResponseEntity<User>(user, HttpStatus.OK);
    }
 
    @PostMapping
@@ -50,23 +46,16 @@ class UserController {
    }
 
    @PutMapping("{id}")
-   public ResponseEntity<User> put(@PathVariable Long id, @Valid @RequestBody User user) {
-      try {
-         User newUser = service.update(id, user);
-         return new ResponseEntity<User>(newUser, HttpStatus.OK);
-      } catch (RuntimeException e) {
-         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
+   public ResponseEntity<User> put(@PathVariable Long id, @Valid @RequestBody User user)
+         throws EntityNotFoundException {
+      User newUser = service.update(id, user);
+      return new ResponseEntity<User>(newUser, HttpStatus.OK);
    }
 
    @DeleteMapping("{id}")
-   public ResponseEntity<String> delete(@PathVariable Long id) {
-      try {
-         service.destroy(id);
-         return new ResponseEntity<String>("Deleted user of id " + id, HttpStatus.NO_CONTENT);
-      } catch (RuntimeException e) {
-         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
+   public ResponseEntity<String> delete(@PathVariable Long id) throws EntityNotFoundException {
+      service.destroy(id);
+      return new ResponseEntity<String>("Deleted user of id " + id, HttpStatus.NO_CONTENT);
    }
 
 }

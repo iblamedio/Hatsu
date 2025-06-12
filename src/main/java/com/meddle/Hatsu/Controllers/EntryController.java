@@ -27,8 +27,8 @@ public class EntryController {
    private EntryService service;
 
    @GetMapping
-   public ResponseEntity<List<Entry>> get() {
-      return new ResponseEntity<List<Entry>>(service.findAll(), HttpStatus.OK);
+   public List<Entry> get() {
+      return service.findAll();
    }
 
    @GetMapping("{userId}")
@@ -43,21 +43,13 @@ public class EntryController {
 
    @PutMapping("{id}")
    public ResponseEntity<Entry> put(@PathVariable Long id, @Valid @RequestBody Entry entry) {
-      try {
-         return new ResponseEntity<Entry>(service.update(id, entry), HttpStatus.OK);
-      } catch (RuntimeException e) {
-         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
+      return new ResponseEntity<Entry>(service.update(id, entry), HttpStatus.OK);
    }
 
    @DeleteMapping("{id}")
-   public ResponseEntity<String> delete(@PathVariable Long id) {
-      try {
-         service.destroy(id);
-         return new ResponseEntity<String>("Deleted entry of id " + id, HttpStatus.NO_CONTENT);
-      } catch (RuntimeException e) {
-         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
+   public ResponseEntity<Void> delete(@PathVariable Long id) {
+      service.destroy(id);
+      return ResponseEntity.noContent().build();
    }
 
 }
