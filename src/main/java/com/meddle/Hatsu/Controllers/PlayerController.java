@@ -15,47 +15,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
-import com.meddle.Hatsu.Models.User;
-import com.meddle.Hatsu.Services.UserService;
+import com.meddle.Hatsu.Models.Player;
+import com.meddle.Hatsu.Services.PlayerService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("user")
-class UserController {
+@RequestMapping("/api/v1/player")
+class PlayerController {
 
    @Autowired
-   private UserService service;
+   private PlayerService service;
 
    @GetMapping
-   public List<User> get() {
+   public List<Player> get() {
       return service.findAll();
    }
 
-   @GetMapping("{id}")
-   public ResponseEntity<User> getOne(@PathVariable Long id) throws EntityNotFoundException {
-      User user = service.find(id);
-      return new ResponseEntity<User>(user, HttpStatus.OK);
+   @GetMapping("/{id}")
+   public ResponseEntity<Player> getOne(@PathVariable Long id) throws EntityNotFoundException {
+      Player player = service.find(id);
+      return ResponseEntity.ok(player);
    }
 
    @PostMapping
-   public ResponseEntity<User> post(@Valid @RequestBody User user) {
-      User newUser = service.create(user);
+   public ResponseEntity<Player> post(@Valid @RequestBody Player player) {
+      Player newPlayer = service.create(player);
 
-      return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+      return new ResponseEntity<Player>(newPlayer, HttpStatus.CREATED);
    }
 
-   @PutMapping("{id}")
-   public ResponseEntity<User> put(@PathVariable Long id, @Valid @RequestBody User user)
+   @PutMapping("/{id}")
+   public ResponseEntity<Player> put(@PathVariable Long id, @Valid @RequestBody Player player)
          throws EntityNotFoundException {
-      User newUser = service.update(id, user);
-      return new ResponseEntity<User>(newUser, HttpStatus.OK);
+      Player newPlayer = service.update(id, player);
+      return ResponseEntity.ok(newPlayer);
    }
 
    @DeleteMapping("{id}")
    public ResponseEntity<String> delete(@PathVariable Long id) throws EntityNotFoundException {
       service.destroy(id);
-      return new ResponseEntity<String>("Deleted user of id " + id, HttpStatus.NO_CONTENT);
+      return new ResponseEntity<String>("Deleted player of id " + id, HttpStatus.NO_CONTENT);
    }
 
 }

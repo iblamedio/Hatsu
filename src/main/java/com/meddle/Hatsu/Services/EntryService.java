@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.meddle.Hatsu.Models.Entry;
 import com.meddle.Hatsu.Repositories.EntryRepository;
-import com.meddle.Hatsu.Repositories.UserRepository;
+import com.meddle.Hatsu.Repositories.PlayerRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -18,17 +18,17 @@ public class EntryService {
    private EntryRepository repo;
 
    @Autowired
-   private UserRepository userRepo;
+   private PlayerRepository playerRepository;
 
    public List<Entry> findAll() {
       return repo.findAll();
    }
 
-   public List<Entry> findByUser(Long userId) {
-      if (!userRepo.existsById(userId)) {
-         throw new EntityNotFoundException("User of id " + userId + " does not exist.");
+   public List<Entry> findByPlayer(Long playerId) {
+      if (!playerRepository.existsById(playerId)) {
+         throw new EntityNotFoundException("User of id " + playerId + " does not exist.");
       }
-      return repo.findByUserId(userId);
+      return repo.findByUserId(playerId);
    }
 
    public Entry create(Entry entry) {

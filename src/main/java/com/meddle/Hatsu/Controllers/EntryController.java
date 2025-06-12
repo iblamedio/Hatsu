@@ -20,7 +20,7 @@ import com.meddle.Hatsu.Services.EntryService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("entry")
+@RequestMapping("/api/v1/entry")
 public class EntryController {
 
    @Autowired
@@ -31,9 +31,9 @@ public class EntryController {
       return service.findAll();
    }
 
-   @GetMapping("{userId}")
-   public ResponseEntity<List<Entry>> getByUser(@PathVariable Long userId) {
-      return new ResponseEntity<List<Entry>>(service.findByUser(userId), HttpStatus.OK);
+   @GetMapping("/{playerId}")
+   public ResponseEntity<List<Entry>> getByUser(@PathVariable Long playerId) {
+      return new ResponseEntity<List<Entry>>(service.findByPlayer(playerId), HttpStatus.OK);
    }
 
    @PostMapping
@@ -41,12 +41,12 @@ public class EntryController {
       return new ResponseEntity<Entry>(service.create(entry), HttpStatus.OK);
    }
 
-   @PutMapping("{id}")
+   @PutMapping("/{id}")
    public ResponseEntity<Entry> put(@PathVariable Long id, @Valid @RequestBody Entry entry) {
       return new ResponseEntity<Entry>(service.update(id, entry), HttpStatus.OK);
    }
 
-   @DeleteMapping("{id}")
+   @DeleteMapping("/{id}")
    public ResponseEntity<Void> delete(@PathVariable Long id) {
       service.destroy(id);
       return ResponseEntity.noContent().build();

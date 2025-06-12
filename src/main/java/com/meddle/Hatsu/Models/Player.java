@@ -13,13 +13,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "players")
+public class Player {
 
-   public User() {
+   public Player() {
    }
 
-   public User(String username, String password) {
+   public Player(String username, String password) {
       this.username = username;
       this.password = password;
    }
