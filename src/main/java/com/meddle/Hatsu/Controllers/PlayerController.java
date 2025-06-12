@@ -1,7 +1,5 @@
 package com.meddle.Hatsu.Controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meddle.Hatsu.Auth.AuthRequest;
+import com.meddle.Hatsu.Auth.AuthResponse;
 import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
 import com.meddle.Hatsu.Models.Player;
 import com.meddle.Hatsu.Services.PlayerService;
@@ -27,11 +27,6 @@ class PlayerController {
    @Autowired
    private PlayerService service;
 
-   @GetMapping
-   public List<Player> get() {
-      return service.findAll();
-   }
-
    @GetMapping("/{id}")
    public ResponseEntity<Player> getOne(@PathVariable Long id) throws EntityNotFoundException {
       Player player = service.find(id);
@@ -39,10 +34,10 @@ class PlayerController {
    }
 
    @PostMapping
-   public ResponseEntity<Player> post(@Valid @RequestBody Player player) {
-      Player newPlayer = service.create(player);
+   public ResponseEntity<AuthResponse> post(@Valid @RequestBody AuthRequest request) {
+      AuthResponse token = service.register(request.username(), request.password());
 
-      return new ResponseEntity<Player>(newPlayer, HttpStatus.CREATED);
+      return new ResponseEntity<AuthResponse>(token, HttpStatus.CREATED);
    }
 
    @PutMapping("/{id}")

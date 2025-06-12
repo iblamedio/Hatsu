@@ -1,13 +1,13 @@
 package com.meddle.Hatsu.Services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meddle.Hatsu.Auth.AuthResponse;
 import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
 import com.meddle.Hatsu.Models.Player;
 import com.meddle.Hatsu.Repositories.PlayerRepository;
+import com.sun.jdi.request.DuplicateRequestException;
 
 @Service
 public class PlayerService {
@@ -20,12 +20,16 @@ public class PlayerService {
             .orElseThrow(() -> new EntityNotFoundException("Player of id " + id + " does not exist."));
    }
 
-   public List<Player> findAll() {
-      return repo.findAll();
-   }
+   public AuthResponse register(String username, String password) {
+      if (repo.findByUsername(username).isPresent()) {
+         throw new DuplicateRequestException("Player of username " + username + " already exists");
+      }
 
-   public Player create(Player player) {
-      return repo.save(player);
+      // TODO: encrypt password
+
+      repo.save(new Player(username, password));
+      // TODO: return token
+      return new AuthResponse("token for " + username);
    }
 
    public Player update(Long id, Player player) throws EntityNotFoundException {

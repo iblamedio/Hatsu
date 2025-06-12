@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meddle.Hatsu.Exceptions.DuplicateEntityException;
 import com.meddle.Hatsu.Models.Entry;
 import com.meddle.Hatsu.Repositories.EntryRepository;
 import com.meddle.Hatsu.Repositories.PlayerRepository;
@@ -20,18 +21,31 @@ public class EntryService {
    @Autowired
    private PlayerRepository playerRepository;
 
-   public List<Entry> findAll() {
-      return repo.findAll();
+   public Entry find(Long id) {
+      return repo.findById(id).orElseThrow(() -> new EntityNotFoundException("Entry of id " + id + " already exists"));
    }
 
    public List<Entry> findByPlayer(Long playerId) {
       if (!playerRepository.existsById(playerId)) {
-         throw new EntityNotFoundException("User of id " + playerId + " does not exist.");
+         throw new EntityNotFoundException("Player of id " + playerId + " does not exist.");
       }
-      return repo.findByUserId(playerId);
+      return repo.findByPlayerId(playerId);
    }
 
-   public Entry create(Entry entry) {
+   public Entry findByPlayerAndIgdb(Long playerId, Long igdbId) {
+      if (!playerRepository.existsById(playerId)) {
+         throw new EntityNotFoundException("Player of id " + playerId + " does not exist.");
+      }
+
+      return repo.findByPlayerIdAndIgdbId(playerId, igdbId)
+            .orElseThrow(() -> new EntityNotFoundException("Specified entry does not exist"));
+   }
+
+   public Entry create(Entry entry) throws DuplicateEntityException {
+      if (repo.findByPlayerIdAndIgdbId(entry.getUserId(), entry.getIgdbId()).isPresent()) {
+         throw new DuplicateEntityException("This entry already exists");
+      }
+
       return repo.save(entry);
    }
 

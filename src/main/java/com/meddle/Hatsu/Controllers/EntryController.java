@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meddle.Hatsu.Exceptions.DuplicateEntityException;
 import com.meddle.Hatsu.Models.Entry;
 import com.meddle.Hatsu.Services.EntryService;
 
@@ -26,18 +27,18 @@ public class EntryController {
    @Autowired
    private EntryService service;
 
-   @GetMapping
-   public List<Entry> get() {
-      return service.findAll();
-   }
-
    @GetMapping("/{playerId}")
-   public ResponseEntity<List<Entry>> getByUser(@PathVariable Long playerId) {
+   public ResponseEntity<List<Entry>> getByPlayer(@PathVariable Long playerId) {
       return new ResponseEntity<List<Entry>>(service.findByPlayer(playerId), HttpStatus.OK);
    }
 
+   @GetMapping("/{playerId}/{igdbId}")
+   public ResponseEntity<Entry> getByPlayerAndIgdb(@PathVariable Long playerId, @PathVariable Long igdbId) {
+      return new ResponseEntity<Entry>(service.findByPlayerAndIgdb(playerId, igdbId), HttpStatus.OK);
+   }
+
    @PostMapping
-   public ResponseEntity<Entry> post(@Valid @RequestBody Entry entry) {
+   public ResponseEntity<Entry> post(@Valid @RequestBody Entry entry) throws DuplicateEntityException {
       return new ResponseEntity<Entry>(service.create(entry), HttpStatus.OK);
    }
 

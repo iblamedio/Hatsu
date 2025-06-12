@@ -21,6 +21,16 @@ public class GlobalExceptionHandler {
       return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND);
    }
 
+   @ExceptionHandler(DuplicateEntityException.class)
+   ResponseEntity<Object> handleDuplicateEntity(DuplicateEntityException exception) {
+      HashMap<String, Object> body = new HashMap<String, Object>();
+      body.put("timestamp", LocalDateTime.now());
+      body.put("status", HttpStatus.BAD_REQUEST.value());
+      body.put("message", exception.getMessage());
+
+      return new ResponseEntity<Object>(body, HttpStatus.BAD_REQUEST);
+   }
+
    @ExceptionHandler(Exception.class)
    ResponseEntity<Object> handleException(Exception exception) {
       HashMap<String, Object> body = new HashMap<String, Object>();

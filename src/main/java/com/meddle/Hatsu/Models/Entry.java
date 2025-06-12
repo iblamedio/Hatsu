@@ -19,11 +19,11 @@ public class Entry {
    Entry() {
    }
 
-   Entry(Long igdbId, Long userId, int score, short status) {
+   Entry(Long igdbId, Long playerId, int score, short status) {
+      this.playerId = playerId;
       this.igdbId = igdbId;
-      this.userId = userId;
-      this.score = score;
       this.status = status;
+      this.score = score;
    }
 
    @Id
@@ -34,7 +34,7 @@ public class Entry {
    private Long igdbId;
 
    @Column(nullable = false)
-   private Long userId;
+   private Long playerId;
 
    @Range(min = 0, max = 100)
    private int score;
@@ -58,8 +58,8 @@ public class Entry {
       return igdbId;
    }
 
-   public Long getUserId() {
-      return userId;
+   public Long getPlayerId() {
+      return playerId;
    }
 
    public int getScore() {
