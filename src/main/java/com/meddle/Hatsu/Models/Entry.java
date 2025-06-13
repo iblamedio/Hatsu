@@ -46,7 +46,7 @@ public class Entry {
    @Column(nullable = true)
    private Integer score;
 
-   // 0: planning, 1: completed, 2: paused, 4: dropped
+   // 0: planning, 1: playing, 2: completed, 3:paused 4: dropped
    @Range(min = 0, max = 4)
    @Column(nullable = false)
    private short status;

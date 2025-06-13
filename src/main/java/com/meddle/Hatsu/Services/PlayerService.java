@@ -11,6 +11,9 @@ import com.meddle.Hatsu.Auth.AuthUtils;
 import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
 import com.meddle.Hatsu.Exceptions.InvalidCredentialsException;
 import com.meddle.Hatsu.Models.Player;
+import com.meddle.Hatsu.Models.PlayerEntryList;
+import com.meddle.Hatsu.Models.PlayerResponseDto;
+import com.meddle.Hatsu.Repositories.EntryRepository;
 import com.meddle.Hatsu.Repositories.PlayerRepository;
 import com.sun.jdi.request.DuplicateRequestException;
 
@@ -21,14 +24,32 @@ public class PlayerService {
    private PlayerRepository repo;
 
    @Autowired
+   private EntryRepository entryRepository;
+
+   @Autowired
    private PasswordEncoder encoder;
 
    @Autowired
    private AuthUtils authUtils;
 
-   public Player find(Long id) throws EntityNotFoundException {
-      return repo.findById(id)
+   private PlayerEntryList getPlayerEntryList(Long playerId) throws EntityNotFoundException {
+      if (repo.findById(playerId).isEmpty()) {
+         throw new EntityNotFoundException("Player of id " + playerId + " does not exist.");
+      }
+
+      return new PlayerEntryList(entryRepository.findByPlayerIdAndStatus(playerId, (short) 0),
+            entryRepository.findByPlayerIdAndStatus(playerId, (short) 1),
+            entryRepository.findByPlayerIdAndStatus(playerId, (short) 2),
+            entryRepository.findByPlayerIdAndStatus(playerId, (short) 3),
+            entryRepository.findByPlayerIdAndStatus(playerId, (short) 4));
+
+   }
+
+   public PlayerResponseDto find(Long id) throws EntityNotFoundException {
+      Player player = repo.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Player of id " + id + " does not exist."));
+
+      return new PlayerResponseDto(id, player.getUsername(), getPlayerEntryList(id));
    }
 
    public AuthResponse register(String username, String password) throws InvalidCredentialsException {

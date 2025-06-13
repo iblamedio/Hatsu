@@ -13,4 +13,6 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
    public List<Entry> findByPlayerId(Long playerId);
 
    public Optional<Entry> findByPlayerIdAndIgdbId(Long playerId, Long igdbId);
+
+   public List<Entry> findByPlayerIdAndStatus(Long playerId, short status);
 }

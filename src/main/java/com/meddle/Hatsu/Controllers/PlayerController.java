@@ -18,6 +18,7 @@ import com.meddle.Hatsu.Exceptions.DuplicateEntityException;
 import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
 import com.meddle.Hatsu.Exceptions.InvalidCredentialsException;
 import com.meddle.Hatsu.Models.Player;
+import com.meddle.Hatsu.Models.PlayerResponseDto;
 import com.meddle.Hatsu.Services.PlayerService;
 
 import jakarta.validation.Valid;
@@ -30,8 +31,8 @@ class PlayerController {
    private PlayerService service;
 
    @GetMapping("/{id}")
-   public ResponseEntity<Player> getOne(@PathVariable Long id) throws EntityNotFoundException {
-      Player player = service.find(id);
+   public ResponseEntity<PlayerResponseDto> getOne(@PathVariable Long id) throws EntityNotFoundException {
+      PlayerResponseDto player = service.find(id);
       return ResponseEntity.ok(player);
    }
 
