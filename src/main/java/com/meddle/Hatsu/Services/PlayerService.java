@@ -31,9 +31,21 @@ public class PlayerService {
             .orElseThrow(() -> new EntityNotFoundException("Player of id " + id + " does not exist."));
    }
 
-   public AuthResponse register(String username, String password) {
+   public AuthResponse register(String username, String password) throws InvalidCredentialsException {
       if (repo.findByUsername(username).isPresent()) {
          throw new DuplicateRequestException("Player of username " + username + " already exists");
+      }
+
+      if (username.length() < 3) {
+         throw new InvalidCredentialsException("Username must be at least 4 characters long");
+      }
+
+      if (username.contains(" ")) {
+         throw new InvalidCredentialsException("Can't have blank spaces in username");
+      }
+
+      if (password.length() <= 6) {
+         throw new InvalidCredentialsException("Password must be at least 4 characters long");
       }
 
       String encryptedPassword = encoder.encode(password);
