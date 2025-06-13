@@ -36,7 +36,8 @@ class PlayerController {
    }
 
    @PostMapping("/register")
-   public ResponseEntity<AuthResponse> post(@RequestBody AuthRequest request) throws DuplicateEntityException {
+   public ResponseEntity<AuthResponse> post(@RequestBody AuthRequest request)
+         throws DuplicateEntityException, InvalidCredentialsException {
       AuthResponse token = service.register(request.username(), request.password());
 
       return new ResponseEntity<AuthResponse>(token, HttpStatus.CREATED);

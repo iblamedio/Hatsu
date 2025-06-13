@@ -16,10 +16,16 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "entries")
 public class Entry {
-   Entry() {
+   public Entry() {
    }
 
-   Entry(Long igdbId, Long playerId, int score, short status) {
+   public Entry(Long playerId, Long igdbId, short status) {
+      this.playerId = playerId;
+      this.igdbId = igdbId;
+      this.status = status;
+   }
+
+   public Entry(Long playerId, Long igdbId, Integer score, short status) {
       this.playerId = playerId;
       this.igdbId = igdbId;
       this.status = status;
@@ -37,7 +43,8 @@ public class Entry {
    private Long playerId;
 
    @Range(min = 0, max = 100)
-   private int score;
+   @Column(nullable = true)
+   private Integer score;
 
    // 0: planning, 1: completed, 2: paused, 4: dropped
    @Range(min = 0, max = 4)
@@ -62,11 +69,11 @@ public class Entry {
       return playerId;
    }
 
-   public int getScore() {
+   public Integer getScore() {
       return score;
    }
 
-   public void setScore(int score) {
+   public void setScore(Integer score) {
       this.score = score;
    }
 
