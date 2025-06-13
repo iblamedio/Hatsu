@@ -3,16 +3,13 @@ package com.meddle.Hatsu.Services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.meddle.Hatsu.Auth.AuthResponse;
 import com.meddle.Hatsu.Auth.AuthUtils;
 import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
+import com.meddle.Hatsu.Exceptions.InvalidCredentialsException;
 import com.meddle.Hatsu.Models.Player;
 import com.meddle.Hatsu.Repositories.PlayerRepository;
 import com.sun.jdi.request.DuplicateRequestException;
@@ -43,17 +40,19 @@ public class PlayerService {
       String token = authUtils.generateToken(username);
 
       repo.save(new Player(username, encryptedPassword));
-      return new AuthResponse("Bearer " + token);
+      return new AuthResponse(token);
    }
 
-   public AuthResponse login(String username, String encryptedPassword) throws EntityNotFoundException {
+   public AuthResponse login(String username, String password) throws InvalidCredentialsException {
       Optional<Player> player = repo.findByUsername(username);
 
-      System.out.println(player.get().getPassword());
-      System.out.println(encryptedPassword);
+      if (player.isPresent() && encoder.matches(password, player.get().getPassword())) {
+         String token = authUtils.generateToken(username);
+         return new AuthResponse(token);
+      }
 
-      // if (player.isPresent() && )
-      return null;
+      throw new InvalidCredentialsException("Credenciais inválidas");
+
    }
 
    public Player update(Long id, Player player) throws EntityNotFoundException {

@@ -16,6 +16,7 @@ import com.meddle.Hatsu.Auth.AuthRequest;
 import com.meddle.Hatsu.Auth.AuthResponse;
 import com.meddle.Hatsu.Exceptions.DuplicateEntityException;
 import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
+import com.meddle.Hatsu.Exceptions.InvalidCredentialsException;
 import com.meddle.Hatsu.Models.Player;
 import com.meddle.Hatsu.Services.PlayerService;
 
@@ -41,11 +42,11 @@ class PlayerController {
       return new ResponseEntity<AuthResponse>(token, HttpStatus.CREATED);
    }
 
-   // @PostMapping("/login")
-   // public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest
-   // request) {
-
-   // }
+   @PostMapping("/login")
+   public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request)
+         throws InvalidCredentialsException {
+      return ResponseEntity.ok(service.login(request.username(), request.password()));
+   }
 
    @PutMapping("/{id}")
    public ResponseEntity<Player> put(@PathVariable Long id, @Valid @RequestBody Player player)
