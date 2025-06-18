@@ -45,6 +45,18 @@ public class PlayerService {
 
    }
 
+   public Player getById(Long id) throws EntityNotFoundException {
+      return repo.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Player of id " + id + " does not exist."));
+   }
+
+   public Player getByToken(String token) throws EntityNotFoundException {
+      String username = authUtils.extractUsername(token);
+
+      return repo.findByUsername(username)
+            .orElseThrow(() -> new EntityNotFoundException("Player of name " + username + " does not exist."));
+   }
+
    public PlayerResponseDto find(Long id) throws EntityNotFoundException {
       Player player = repo.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Player of id " + id + " does not exist."));

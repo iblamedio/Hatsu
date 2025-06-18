@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meddle.Hatsu.DTOs.EntryPlayerDTO;
+import com.meddle.Hatsu.DTOs.EntryResponseDTO;
 import com.meddle.Hatsu.Exceptions.DuplicateEntityException;
+import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
 import com.meddle.Hatsu.Models.Entry;
 import com.meddle.Hatsu.Models.NewEntryRequest;
 import com.meddle.Hatsu.Models.UpdateEntryDto;
 import com.meddle.Hatsu.Services.EntryService;
-
-import jakarta.validation.Valid;
+import com.meddle.Hatsu.Services.GameService;
+import com.meddle.Hatsu.Services.PlayerService;
 
 @RestController
 @RequestMapping("/api/v1/entry")
@@ -30,24 +33,59 @@ public class EntryController {
    @Autowired
    private EntryService service;
 
+   @Autowired
+   private GameService gameService;
+
+   @Autowired
+   private PlayerService playerService;
+
    @GetMapping
-   public ResponseEntity<List<Entry>> getByPlayerToken(@RequestHeader("Authorization") String authHeader) {
+   public ResponseEntity<List<EntryResponseDTO>> getByPlayerToken(@RequestHeader("Authorization") String authHeader)
+         throws EntityNotFoundException {
       if (authHeader == null || !authHeader.startsWith("Bearer")) {
          return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
       }
 
       String token = authHeader.substring(7);
-      return new ResponseEntity<List<Entry>>(service.findByToken(token), HttpStatus.OK);
+
+      List<Entry> entries = service.findByToken(token);
+
+      EntryPlayerDTO player = new EntryPlayerDTO(playerService.getByToken(token).getUsername());
+
+      List<EntryResponseDTO> entryDtos = entries.stream()
+            .map(entry -> new EntryResponseDTO(player, entry.getStatus(), entry.getScore(),
+                  gameService.getById(entry.getIgdbId())))
+            .toList();
+
+      return new ResponseEntity<List<EntryResponseDTO>>(entryDtos, HttpStatus.OK);
    }
 
    @GetMapping("/{playerId}")
-   public ResponseEntity<List<Entry>> getByPlayer(@PathVariable Long playerId) {
-      return new ResponseEntity<List<Entry>>(service.findByPlayer(playerId), HttpStatus.OK);
+   public ResponseEntity<List<EntryResponseDTO>> getByPlayer(@PathVariable Long playerId)
+         throws EntityNotFoundException {
+      List<Entry> entries = service.findByPlayer(playerId);
+
+      EntryPlayerDTO player = new EntryPlayerDTO(playerService.getById(playerId).getUsername());
+
+      List<EntryResponseDTO> entryDtos = entries.stream()
+            .map(entry -> new EntryResponseDTO(player, entry.getStatus(), entry.getScore(),
+                  gameService.getById(entry.getIgdbId())))
+            .toList();
+
+      return new ResponseEntity<List<EntryResponseDTO>>(entryDtos, HttpStatus.OK);
    }
 
    @GetMapping("/{playerId}/{igdbId}")
-   public ResponseEntity<Entry> getByPlayerAndIgdb(@PathVariable Long playerId, @PathVariable Long igdbId) {
-      return new ResponseEntity<Entry>(service.findByPlayerAndIgdb(playerId, igdbId), HttpStatus.OK);
+   public ResponseEntity<EntryResponseDTO> getByPlayerAndIgdb(@PathVariable Long playerId, @PathVariable Long igdbId)
+         throws EntityNotFoundException {
+      Entry entry = service.findByPlayerAndIgdb(playerId, igdbId);
+      EntryPlayerDTO player = new EntryPlayerDTO(playerService.getById(playerId).getUsername());
+
+      EntryResponseDTO entryDto = new EntryResponseDTO(player, entry.getStatus(),
+            entry.getScore(),
+            gameService.getById(igdbId));
+
+      return new ResponseEntity<EntryResponseDTO>(entryDto, HttpStatus.OK);
    }
 
    @PostMapping
