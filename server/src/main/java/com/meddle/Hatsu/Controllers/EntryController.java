@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.meddle.Hatsu.DTOs.EntryPlayerDTO;
+import com.meddle.Hatsu.Auth.AuthUtils;
 import com.meddle.Hatsu.DTOs.EntryResponseDTO;
 import com.meddle.Hatsu.Exceptions.DuplicateEntityException;
 import com.meddle.Hatsu.Exceptions.EntityNotFoundException;
@@ -39,6 +39,9 @@ public class EntryController {
    @Autowired
    private PlayerService playerService;
 
+   @Autowired
+   private AuthUtils authUtils;
+
    @GetMapping
    public ResponseEntity<List<EntryResponseDTO>> getByPlayerToken(@RequestHeader("Authorization") String authHeader)
          throws EntityNotFoundException {
@@ -50,10 +53,8 @@ public class EntryController {
 
       List<Entry> entries = service.findByToken(token);
 
-      EntryPlayerDTO player = new EntryPlayerDTO(playerService.getByToken(token).getUsername());
-
       List<EntryResponseDTO> entryDtos = entries.stream()
-            .map(entry -> new EntryResponseDTO(player, entry.getStatus(), entry.getScore(),
+            .map(entry -> new EntryResponseDTO(entry.getStatus(), entry.getScore(),
                   gameService.getById(entry.getIgdbId())))
             .toList();
 
@@ -65,10 +66,8 @@ public class EntryController {
          throws EntityNotFoundException {
       List<Entry> entries = service.findByPlayer(playerId);
 
-      EntryPlayerDTO player = new EntryPlayerDTO(playerService.getById(playerId).getUsername());
-
       List<EntryResponseDTO> entryDtos = entries.stream()
-            .map(entry -> new EntryResponseDTO(player, entry.getStatus(), entry.getScore(),
+            .map(entry -> new EntryResponseDTO(entry.getStatus(), entry.getScore(),
                   gameService.getById(entry.getIgdbId())))
             .toList();
 
@@ -79,9 +78,8 @@ public class EntryController {
    public ResponseEntity<EntryResponseDTO> getByPlayerAndIgdb(@PathVariable Long playerId, @PathVariable Long igdbId)
          throws EntityNotFoundException {
       Entry entry = service.findByPlayerAndIgdb(playerId, igdbId);
-      EntryPlayerDTO player = new EntryPlayerDTO(playerService.getById(playerId).getUsername());
 
-      EntryResponseDTO entryDto = new EntryResponseDTO(player, entry.getStatus(),
+      EntryResponseDTO entryDto = new EntryResponseDTO(entry.getStatus(),
             entry.getScore(),
             gameService.getById(igdbId));
 
@@ -108,11 +106,25 @@ public class EntryController {
       }
 
       String token = authHeader.substring(7);
+
       return new ResponseEntity<Entry>(service.update(token, updateEntryDto), HttpStatus.OK);
    }
 
    @DeleteMapping("/{id}")
-   public ResponseEntity<Void> delete(@PathVariable Long id) {
+   public ResponseEntity<Void> delete(@PathVariable Long id, @RequestHeader("Authorization") String authHeader)
+         throws EntityNotFoundException {
+      if (authHeader == null || !authHeader.startsWith("Bearer")) {
+         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+      }
+
+      Entry entry = service.find(id);
+
+      String token = authHeader.substring(7);
+
+      if (authUtils.extractUsername(token) != playerService.getById(entry.getPlayerId()).getUsername()) {
+         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+      }
+
       service.destroy(id);
       return ResponseEntity.noContent().build();
    }
