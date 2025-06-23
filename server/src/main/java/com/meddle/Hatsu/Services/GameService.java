@@ -18,8 +18,12 @@ public class GameService {
       }
 
       // fetch from igdb
-      return new Game();
+      return fetchGame(gameId);
+   }
 
+   public Game fetchGame(Long id) {
+      // TODO
+      return new Game();
    }
 
 }

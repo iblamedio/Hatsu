@@ -95,6 +95,9 @@ public class EntryController {
       }
 
       String token = authHeader.substring(7);
+
+      gameService.fetchGame(entryDto.igdbId());
+
       return new ResponseEntity<Entry>(service.create(entryDto, token), HttpStatus.OK);
    }
 
