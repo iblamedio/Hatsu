@@ -20,7 +20,7 @@ public record class Playlists
     public IEnumerable<Entry> Paused { get; private set; }
     public IEnumerable<Entry> Dropped { get; private set; }
 
-    private static Playlists FromEntries(IEnumerable<Entry> entries)
+    public static Playlists FromEntries(IEnumerable<Entry> entries)
     {
         var entryList = entries.ToList();
         
