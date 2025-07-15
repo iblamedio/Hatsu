@@ -4,7 +4,7 @@ namespace Domain.Entities;
 
 public class Entry : Entity<Guid>
 {
-    private Entry(Game game, int playerId, Status? status, int? score)
+    private Entry(Game game, Guid playerId, Status? status, int? score)
     {
         Id = Guid.NewGuid();
         Game = game;
@@ -15,12 +15,11 @@ public class Entry : Entity<Guid>
     }
 
     public Game Game { get; init; }
-    // TODO melhorar isso aq
-    public int PlayerId { get; init; }
+    public Guid PlayerId { get; init; }
     public int? Score { get; private set; }
     public Status Status { get; private set; }
 
-    public static Entry Create(Game game, int playerId, Status status, int? score)
+    public static Entry Create(Game game, Guid playerId, Status status, int? score)
     {
         if (score is < 0 or > 100)
         {
