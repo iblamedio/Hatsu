@@ -6,8 +6,14 @@ namespace Application.UseCases.EntryUseCases.CreateEntryUseCase;
 public class CreateEntryUseCase(IEntryRepository repo, IGameRepository repoGame)
 {
     public async Task<Entry> ExecuteAsync(CreateEntryUseCaseInput input)
-    {  
+    {
         var game = await repoGame.GetByIdAsync(input.GameId);
+        
+        if (game is null)
+        {
+            game = await repoGame.FetchGameAsync(input.GameId);
+        }
+        
         if (game is null)
         {
             throw new InvalidOperationException($"Game with id {input.GameId} not found");

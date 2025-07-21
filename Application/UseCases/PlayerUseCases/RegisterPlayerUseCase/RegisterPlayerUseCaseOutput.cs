@@ -1,7 +1,5 @@
 namespace Application.UseCases.PlayerUseCases.RegisterPlayerUseCase;
 
-public class RegisterPlayerUseCaseOutput(string token, int expiresIn)
+public record RegisterPlayerUseCaseOutput(string Token, int ExpiresIn)
 {
-    public string Token { get; init; } = token;
-    public int ExpiresIn { get; init; } = expiresIn;
 }

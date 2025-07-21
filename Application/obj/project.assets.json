@@ -27,19 +27,19 @@
     ]
   },
   "packageFolders": {
-    "/home/dio/.nuget/packages/": {}
+    "/home/diogenes/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/dio/Projetos/Hatsu/Application/Application.csproj",
+      "projectUniqueName": "/home/diogenes/projects/Hatsu/Application/Application.csproj",
       "projectName": "Application",
-      "projectPath": "/home/dio/Projetos/Hatsu/Application/Application.csproj",
-      "packagesPath": "/home/dio/.nuget/packages/",
-      "outputPath": "/home/dio/Projetos/Hatsu/Application/obj/",
+      "projectPath": "/home/diogenes/projects/Hatsu/Application/Application.csproj",
+      "packagesPath": "/home/diogenes/.nuget/packages/",
+      "outputPath": "/home/diogenes/projects/Hatsu/Application/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/dio/.nuget/NuGet/NuGet.Config"
+        "/home/diogenes/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -51,8 +51,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/home/dio/Projetos/Hatsu/Domain/Domain.csproj": {
-              "projectPath": "/home/dio/Projetos/Hatsu/Domain/Domain.csproj"
+            "/home/diogenes/projects/Hatsu/Domain/Domain.csproj": {
+              "projectPath": "/home/diogenes/projects/Hatsu/Domain/Domain.csproj"
             }
           }
         }
@@ -67,7 +67,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -83,18 +83,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[9.0.4, 9.0.4]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.105/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/diogenes/dotnet/sdk/9.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,6 +1,5 @@
 namespace Application.UseCases.PlayerUseCases.LoginUseCase;
 
-public class LoginUseCaseInput
+public record LoginUseCaseOutput(string Token, int ExpiresIn)
 {
-    
 }
