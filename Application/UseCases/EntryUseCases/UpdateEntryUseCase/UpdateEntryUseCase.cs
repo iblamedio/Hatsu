@@ -34,7 +34,6 @@ public class UpdateEntryUseCase(IEntryRepository repo, IPlayerRepository repoPla
         }
 
         await repo.UpdateAsync(entry);
-        await repo.SaveAsync();
 
     }
 }

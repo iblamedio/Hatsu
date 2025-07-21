@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "LPe2qR/mPVE=",
+  "success": true,
+  "projectFilePath": "/home/diogenes/projects/Hatsu/Api/Api.csproj",
+  "expectedPackageFiles": [
+    "/home/diogenes/.nuget/packages/microsoft.aspnetcore.openapi/9.0.6/microsoft.aspnetcore.openapi.9.0.6.nupkg.sha512",
+    "/home/diogenes/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}

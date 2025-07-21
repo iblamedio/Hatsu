@@ -24,6 +24,5 @@ public class DeleteEntryUseCase(IEntryRepository repo, IPlayerRepository repoPla
         }
 
         await repo.DeleteAsync(entry.Id);
-        await repo.SaveAsync();
     }
 }
