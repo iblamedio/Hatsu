@@ -9,13 +9,13 @@ namespace Api.Controllers;
 public class AuthController(RegisterPlayerUseCase registerUseCase, LoginUseCase loginUseCase) : ControllerBase
 {
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterPlayerUseCaseInput input)
+    public async Task<IActionResult> Register([FromBody] RegisterPlayerUseCaseInput input)
     {
         return Ok(await registerUseCase.ExecuteAsync(input));
     }
     
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginUseCaseInput input)
+    public async Task<IActionResult> Login([FromBody] LoginUseCaseInput input)
     {
         return Ok(await loginUseCase.ExecuteAsync(input));
     }
