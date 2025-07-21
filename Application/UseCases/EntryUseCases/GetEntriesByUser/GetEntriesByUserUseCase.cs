@@ -4,11 +4,11 @@ using Domain.ValueObjects;
 
 namespace Application.UseCases.EntryUseCases.GetEntriesByUser;
 
-public class GetEntriesByUserUseCase(IEntryRepository repo)
+public abstract class GetEntriesByUserUseCase(IEntryRepository repo)
 {
-    public async Task<Playlists> ExecuteAsync(Player player)
+    public async Task<Playlists> ExecuteAsync(Guid playerId)
     {
-        var entries = await repo.GetAllByUserAsync(player);
+        var entries = await repo.GetAllByUserAsync(playerId);
 
         return Playlists.FromEntries(entries);
     }

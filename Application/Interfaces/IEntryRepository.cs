@@ -6,7 +6,7 @@ public interface IEntryRepository
 {
     Task<Entry?> GetByIdAsync(Guid entryId);
     Task<Entry?> GetByUserIdAndGameId(Guid userId, long gameId);
-    Task<IEnumerable<Entry>> GetAllByUserAsync(Player player);
+    Task<IEnumerable<Entry>> GetAllByUserAsync(Guid playerId);
     
     Task UpdateAsync(Entry entry);
     

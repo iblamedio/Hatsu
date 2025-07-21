@@ -16,9 +16,9 @@ public class EntryRepository(HatsuDbContext context) : IEntryRepository
         return await context.Entries.FindAsync(userId, gameId);
     }
 
-    public async Task<IEnumerable<Entry>> GetAllByUserAsync(Player player)
+    public async Task<IEnumerable<Entry>> GetAllByUserAsync(Guid playerId)
     {
-        return await context.Entries.AsNoTracking().Where(e => e.PlayerId == player.Id).ToListAsync();
+        return await context.Entries.AsNoTracking().Where(e => e.PlayerId == playerId).ToListAsync();
     }
 
     public async Task UpdateAsync(Entry entry)

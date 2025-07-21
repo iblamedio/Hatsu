@@ -2,7 +2,7 @@ using Application.Interfaces;
 
 namespace Application.UseCases.EntryUseCases.UpdateEntryUseCase;
 
-public class UpdateEntryUseCase(IEntryRepository repo, IPlayerRepository repoPlayer)
+public abstract class UpdateEntryUseCase(IEntryRepository repo, IPlayerRepository repoPlayer)
 {
     public async Task ExecuteAsync(UpdateEntryUseCaseInput input)
     {
