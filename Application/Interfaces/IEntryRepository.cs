@@ -1,8 +1,12 @@
 using Domain.Entities;
 
-namespace Domain.Interfaces;
+namespace Application.Interfaces;
 
 public interface IEntryRepository
 {
-    Task<IEnumerable<Entry>> GetAllByUserAsync(User user);
+    Task<Entry?> GetByUserIdAndGameId(Guid userId, long gameId);
+    Task<IEnumerable<Entry>> GetAllByUserAsync(Player player);
+    
+    Task AddAsync(Entry entry);
+    Task SaveAsync();
 }

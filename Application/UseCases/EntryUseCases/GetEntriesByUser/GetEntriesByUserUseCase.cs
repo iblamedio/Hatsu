@@ -1,14 +1,14 @@
+using Application.Interfaces;
 using Domain.Entities;
-using Domain.Interfaces;
 using Domain.ValueObjects;
 
-namespace Application.UseCases.GetEntriesByUser;
+namespace Application.UseCases.EntryUseCases.GetEntriesByUser;
 
-public class GetEntriesByUserUseCase(IEntryRepository entryRepository)
+public class GetEntriesByUserUseCase(IEntryRepository repo)
 {
-    public async Task<Playlists> ExecuteAsync(User user)
+    public async Task<Playlists> ExecuteAsync(Player player)
     {
-        var entries = await entryRepository.GetAllByUserAsync(user);
+        var entries = await repo.GetAllByUserAsync(player);
 
         return Playlists.FromEntries(entries);
     }

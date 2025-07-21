@@ -17,7 +17,7 @@ public sealed class Game : Entity<long>
 
     public static Game Create(long id, string title, string summary, string coverUrl)
     {
-        if (title.Trim() == "")
+        if (string.IsNullOrWhiteSpace(title))
         {
             throw new ArgumentException("Title cannot be empty");
         }
