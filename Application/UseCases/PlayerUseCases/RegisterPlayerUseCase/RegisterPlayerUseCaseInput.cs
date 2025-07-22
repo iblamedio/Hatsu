@@ -1,5 +1,5 @@
 namespace Application.UseCases.PlayerUseCases.RegisterPlayerUseCase;
 
-public abstract record RegisterPlayerUseCaseInput(string Username, string Password)
+public record RegisterPlayerUseCaseInput(string Username, string Password)
 {
 }

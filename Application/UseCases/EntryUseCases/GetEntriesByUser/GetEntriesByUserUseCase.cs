@@ -4,7 +4,7 @@ using Domain.ValueObjects;
 
 namespace Application.UseCases.EntryUseCases.GetEntriesByUser;
 
-public abstract class GetEntriesByUserUseCase(IEntryRepository repo)
+public class GetEntriesByUserUseCase(IEntryRepository repo)
 {
     public async Task<Playlists> ExecuteAsync(Guid playerId)
     {

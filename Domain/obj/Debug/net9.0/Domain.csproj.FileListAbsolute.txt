@@ -1,0 +1,12 @@
+/home/diogenes/projects/Hatsu/Domain/bin/Debug/net9.0/Domain.deps.json
+/home/diogenes/projects/Hatsu/Domain/bin/Debug/net9.0/Domain.dll
+/home/diogenes/projects/Hatsu/Domain/bin/Debug/net9.0/Domain.pdb
+/home/diogenes/projects/Hatsu/Domain/obj/Debug/net9.0/Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/diogenes/projects/Hatsu/Domain/obj/Debug/net9.0/Domain.AssemblyInfoInputs.cache
+/home/diogenes/projects/Hatsu/Domain/obj/Debug/net9.0/Domain.AssemblyInfo.cs
+/home/diogenes/projects/Hatsu/Domain/obj/Debug/net9.0/Domain.csproj.CoreCompileInputs.cache
+/home/diogenes/projects/Hatsu/Domain/obj/Debug/net9.0/Domain.sourcelink.json
+/home/diogenes/projects/Hatsu/Domain/obj/Debug/net9.0/Domain.dll
+/home/diogenes/projects/Hatsu/Domain/obj/Debug/net9.0/refint/Domain.dll
+/home/diogenes/projects/Hatsu/Domain/obj/Debug/net9.0/Domain.pdb
+/home/diogenes/projects/Hatsu/Domain/obj/Debug/net9.0/ref/Domain.dll

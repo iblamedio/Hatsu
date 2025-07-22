@@ -5,6 +5,9 @@ namespace Domain.Entities;
 
 public class Entry : Entity<Guid>
 {
+    
+    private Entry() {}
+    
     private Entry(Game game, Guid playerId, Status? status, int? score)
     {
         Id = Guid.NewGuid();
