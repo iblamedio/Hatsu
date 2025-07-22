@@ -7,6 +7,7 @@ public class Player : Entity<Guid>
         Id = Guid.NewGuid();
         Username = username;
         HashedPassword = hashedPassword;
+        CreatedAt = DateTime.UtcNow;
     } 
     
     public Guid Id { get; init; }

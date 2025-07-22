@@ -1,3 +1,4 @@
+using Api.Middleware;
 using Application.Interfaces;
 using Application.UseCases.EntryUseCases.CreateEntryUseCase;
 using Application.UseCases.EntryUseCases.DeleteEntryUseCase;
@@ -32,6 +33,8 @@ builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseMiddleware<ErrorHandler>();
 
 app.MapControllers();
 

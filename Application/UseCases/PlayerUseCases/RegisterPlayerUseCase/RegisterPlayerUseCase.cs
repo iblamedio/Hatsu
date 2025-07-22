@@ -7,20 +7,37 @@ public class RegisterPlayerUseCase(IJwtService jwtService, IPlayerRepository rep
 {
     public async Task<RegisterPlayerUseCaseOutput> ExecuteAsync(RegisterPlayerUseCaseInput input)
     {
-        var existing = await repo.GetByUsername(input.Username);
-        if (existing is not null)
+        var username  = input.Username.Trim();
+        var password  = input.Password.Trim();
+
+        if (username.Contains(' '))
         {
-            throw new InvalidOperationException("Username already exists");
+            throw new InvalidOperationException("Username cannot contain spaces");
+        }
+
+        if (username.Length > 20)
+        {
+            throw new InvalidOperationException("Username is too long");
         }
         
-        if (input.Password.Length < 6)
+        if (username.Length <= 3)
+        {
+            throw new InvalidOperationException("Username is too short");
+        }
+        if (password.Length < 6)
         {
             throw new InvalidOperationException("Password is too short");
         } 
         
-        var hashedPassword = passwordHasher.HashPassword(input.Password);
+        var existing = await repo.GetByUsername(username);
+        if (existing is not null)
+        {
+            throw new InvalidOperationException("Username already taken");
+        }
         
-        var newPlayer = Player.Create(input.Username, hashedPassword);
+        var hashedPassword = passwordHasher.HashPassword(password);
+        
+        var newPlayer = Player.Create(username, hashedPassword);
 
         await repo.AddAsync(newPlayer);
         await repo.SaveAsync();
