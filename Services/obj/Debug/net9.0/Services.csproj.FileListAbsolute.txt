@@ -16,3 +16,5 @@
 /home/diogenes/projects/Hatsu/Services/obj/Debug/net9.0/refint/Services.dll
 /home/diogenes/projects/Hatsu/Services/obj/Debug/net9.0/Services.pdb
 /home/diogenes/projects/Hatsu/Services/obj/Debug/net9.0/ref/Services.dll
+/home/diogenes/projects/Hatsu/Services/bin/Debug/net9.0/Microsoft.Extensions.Configuration.Abstractions.dll
+/home/diogenes/projects/Hatsu/Services/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll

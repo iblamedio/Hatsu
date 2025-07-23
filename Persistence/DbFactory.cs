@@ -1,14 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace Persistence;
 
-public class DbFactory : IDesignTimeDbContextFactory<HatsuDbContext>
+public class DbFactory(IConfiguration config) : IDesignTimeDbContextFactory<HatsuDbContext>
 {
     public HatsuDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<HatsuDbContext>();
-        options.UseNpgsql(connectionString: "Host=localhost;Port=5432;Username=postgres;Password=secret;Database=postgres");
+        options.UseNpgsql(connectionString: config.GetConnectionString("DefaultConnection"));
         return new HatsuDbContext(options.Options);
     }
 }

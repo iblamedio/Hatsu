@@ -1,8 +1,9 @@
 using Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.UseCases.PlayerUseCases.LoginUseCase;
 
-public class LoginUseCase(IPlayerRepository repo, IPasswordHasher hasher, IJwtService jwtService)
+public class LoginUseCase(IConfiguration config, IPlayerRepository repo, IPasswordHasher hasher, IJwtService jwtService)
 {
     public async Task<LoginUseCaseOutput> ExecuteAsync(LoginUseCaseInput input)
     {
@@ -20,6 +21,6 @@ public class LoginUseCase(IPlayerRepository repo, IPasswordHasher hasher, IJwtSe
 
         var token = jwtService.GenerateJwtToken(player.Id);
 
-        return new LoginUseCaseOutput(token, 20000);
+        return new LoginUseCaseOutput(token, int.Parse(config["Jwt:ExpiresInSeconds"]!));
     }
 }

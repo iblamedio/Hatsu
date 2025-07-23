@@ -12,7 +12,7 @@ public class ErrorHandler(ILogger<ErrorHandler> logger, RequestDelegate next)
         }
         catch (InvalidOperationException ex)
         {
-            const int code = StatusCodes.Status500InternalServerError;
+            const int code = StatusCodes.Status400BadRequest;
             
             var problem = new ProblemDetails
             {

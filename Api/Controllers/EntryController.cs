@@ -4,10 +4,12 @@ using Application.UseCases.EntryUseCases.CreateEntryUseCase;
 using Application.UseCases.EntryUseCases.DeleteEntryUseCase;
 using Application.UseCases.EntryUseCases.GetEntriesByUser;
 using Application.UseCases.EntryUseCases.UpdateEntryUseCase;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class EntryController(
