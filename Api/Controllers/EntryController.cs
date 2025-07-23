@@ -17,7 +17,7 @@ public class EntryController(
     GetEntriesByUserUseCase getEntriesByUserUseCase,
     DeleteEntryUseCase deleteEntryUseCase,
     UpdateEntryUseCase updateEntryUseCase
-    ) : ControllerBase
+) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> New([FromBody] CreateEntryRequest request)
@@ -28,18 +28,19 @@ public class EntryController(
             return Unauthorized();
         }
 
-        return Ok(await createEntryUseCase.ExecuteAsync(new CreateEntryUseCaseInput(guid, request.GameId,request.Score, request.Status)));
+        return Ok(await createEntryUseCase.ExecuteAsync(new CreateEntryUseCaseInput(guid, request.GameId, request.Score,
+            request.Status)));
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] string id)
+    public async Task<IActionResult> Get([FromQuery] string? id)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = id ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (!Guid.TryParse(userId, out var guid))
         {
-            return Unauthorized();
+            throw new InvalidOperationException("Player not found");
         }
-        
+
         return Ok(await getEntriesByUserUseCase.ExecuteAsync(guid));
     }
 
@@ -52,11 +53,12 @@ public class EntryController(
             return Unauthorized();
         }
 
-        await updateEntryUseCase.ExecuteAsync(new UpdateEntryUseCaseInput(guid, request.EntryId, request.Status, request.Score));
-        
+        await updateEntryUseCase.ExecuteAsync(new UpdateEntryUseCaseInput(guid, request.EntryId, request.Status,
+            request.Score));
+
         return Ok();
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> Destroy([FromQuery] string entryId)
     {
@@ -65,13 +67,14 @@ public class EntryController(
         {
             return Unauthorized();
         }
+
         if (!Guid.TryParse(entryId, out var entryGuid))
         {
             return BadRequest();
         }
 
         await deleteEntryUseCase.ExecuteAsync(entryGuid, userGuid);
-        
+
         return Ok();
     }
 }

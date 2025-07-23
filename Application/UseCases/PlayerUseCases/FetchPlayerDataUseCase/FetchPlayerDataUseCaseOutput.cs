@@ -1,0 +1,3 @@
+namespace Application.UseCases.PlayerUseCases.FetchPlayerDataUseCase;
+
+public record FetchPlayerDataUseCaseOutput(string Username);
